@@ -2,11 +2,13 @@ import { AfterViewInit, Component, EventEmitter, Inject, Input, OnChanges, OnDes
 import { ClientModelTable } from "../../client.models";
 import { MatTableDataSource, MatTableModule } from "@angular/material/table";
 import { MatIcon } from "@angular/material/icon";
-import { MatPaginator } from "@angular/material/paginator";
+import { MatPaginator, MatPaginatorIntl } from "@angular/material/paginator";
 import { Subscription } from 'rxjs';
 import { SERVICES_TOKEN } from '../../../services/service.token';
 import { DialogManagerService } from '../../../services/dialog-manager.service';
 import { IDialogManagerService } from '../../../services/idialog-manager.service';
+import { YesNoDialogComponent } from '../../../commons/components/yes-no-dialog/yes-no-dialog.component';
+import { CustomPaginator } from './custom-painator';
 
 @Component({
   selector: 'app-client-table',
@@ -14,19 +16,35 @@ import { IDialogManagerService } from '../../../services/idialog-manager.service
   imports: [MatTableModule, MatIcon, MatPaginator],
   templateUrl: './client-table.component.html',
   styleUrl: './client-table.component.scss',
-  providers:[{provide: SERVICES_TOKEN.DIALOG, useClass: DialogManagerService}]
+  providers:[{provide: SERVICES_TOKEN.DIALOG, useClass: DialogManagerService},
+  {provide: MatPaginatorIntl, useClass: CustomPaginator}]
 })
 export class ClientTableComponent implements AfterViewInit, OnChanges, OnDestroy{
 
 
+  @Output() onConfirmDelete = new EventEmitter<ClientModelTable>();
+  @Output() onRequestUpdate = new EventEmitter<ClientModelTable>();
+
   formatPhone(phone: string) {
     return `(${phone.substring(0, 2)}) ${phone.substring(2, 7)} - ${phone.substring(7)}`
   }
-  onRequestUpdate(_t44: any) {
-    
+
+  update(client: ClientModelTable) {
+    this.onRequestUpdate.emit(client)
   }
-  delete(_t44: any) {
-    
+
+  delete(client: ClientModelTable) {
+
+    this.dialogManagerService.showYesNoDialog(
+      YesNoDialogComponent, {title: 'Exclusão de cliente', content: `Confirma a exclusão do cliente ${client.name}`}
+    ).subscribe(result =>{
+      if(result){
+        this.onConfirmDelete.emit(client)
+        const updateList = this.dataSource.data.filter(c => c.id !== client.id);
+        this.dataSource = new MatTableDataSource<ClientModelTable>(updateList);
+      }
+    })
+
   }
 
   @Input() clients: ClientModelTable[] = []
@@ -39,8 +57,7 @@ export class ClientTableComponent implements AfterViewInit, OnChanges, OnDestroy
 
   private dialogManagerServiceSubscriptions?: Subscription;
 
-  @Output() confirmDelete = new EventEmitter<ClientModelTable>();
-  @Output() requestUpdate = new EventEmitter<ClientModelTable>();
+
 
   constructor(@Inject(SERVICES_TOKEN.DIALOG) private readonly dialogManagerService:IDialogManagerService) {
     
