@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import { CardHeaderComponent } from "./commons/components/card-header/card-header.component";
 import { Subscription, filter, map } from 'rxjs';
@@ -11,26 +11,26 @@ import { MenuBarComponent } from './commons/components/menu-bar/menu-bar.compone
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
-export class AppComponent {
+export class AppComponent implements OnInit, OnDestroy{
+  
   title = 'barber-shop-ui';
 
-
-  private routeSubscrition?: Subscription;
+  private routeSubscription?: Subscription;
 
   constructor(private readonly router: Router, private readonly activatedRoute: ActivatedRoute){
   }
 
   ngOnDestroy(): void{
-   if(this.routeSubscrition){
-    this.routeSubscrition.unsubscribe()
+   if(this.routeSubscription){
+    this.routeSubscription.unsubscribe()
    }
   }
 
   ngOnInit(): void{
-    this.routeSubscrition = this.router.events.pipe(
+    this.routeSubscription = this.router.events.pipe(
       filter(event => event instanceof NavigationEnd),
       map(() =>  this.getRouteTitle(this.activatedRoute))
-    ).subscribe(title => this.title = this.title)
+    ).subscribe(title => this.title = title)
   }
 
 

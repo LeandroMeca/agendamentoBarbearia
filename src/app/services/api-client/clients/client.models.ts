@@ -13,7 +13,6 @@ export interface SaveClientResponse {
 
 
 export interface updateClientRequest{
-    id: number
     name: string
     email: string
     phone: string
