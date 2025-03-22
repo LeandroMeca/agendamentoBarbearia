@@ -1,2 +1,2 @@
-tela de listagem de cliente 11:50
+lógica do componente de agendamento 30:00
 ?
