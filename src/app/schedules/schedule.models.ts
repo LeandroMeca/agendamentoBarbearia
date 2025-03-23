@@ -1,9 +1,9 @@
-import { ClientScheduleAppointmentMonthResponse } from "../services/api-client/schedules/schedule.models";
+import { ClientScheduleAppointmentResponse } from "../services/api-client/schedules/schedule.models";
 
-export interface ScheduleAppintementMonthModel {
+export interface ScheduledAppintementMonthModel {
     year: number;
     month: number;
-    scheduleAppointments: ClientScheduleAppointmentModel[]   
+    scheduledAppointments: ClientScheduleAppointmentModel[]   
 }
 
 export interface ClientScheduleAppointmentModel {
