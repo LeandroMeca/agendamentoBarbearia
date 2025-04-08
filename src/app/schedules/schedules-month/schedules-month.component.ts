@@ -60,14 +60,16 @@ export class SchedulesMonthComponent implements OnInit, OnDestroy{
   }
 
   onScheduleClient(schedule: SaveScheduleModel) {
-    if(schedule.startAt && schedule.endAt && schedule.clientId){
-      const request: SaveScheduleRequest = {startAt: schedule.startAt, endAt: schedule.endAt,clientId: schedule.clientId}
-      this.subscriptions.push(this.httpService.save(request).subscribe(() => this.snackBarManager.show('Agendamento realizado com sucesso')))
-      if(this.selectedDate){
-        this.fetchSchedules(this.selectedDate)
-      }
+    if (schedule.startAt && schedule.endAt && schedule.clientId) {
+      const request: SaveScheduleRequest = { startAt: schedule.startAt, endAt: schedule.endAt, clientId: schedule.clientId }
+      this.subscriptions.push(this.httpService.save(request).subscribe(() => {
+        //this.snackbarManage.show('Agendamento realizado com sucesso')
+        if (this.selectedDate) {
+          this.fetchSchedules(this.selectedDate)
+        }
+      }))
     }
-  } 
+  }
 
   private fetchSchedules(currentDate: Date) {
     const year = currentDate.getFullYear();

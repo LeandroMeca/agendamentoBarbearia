@@ -1,28 +1,25 @@
-import { ClientScheduleAppointmentResponse } from "../services/api-client/schedules/schedule.models";
-
 export interface ScheduledAppintementMonthModel {
-    year: number;
-    month: number;
+    year: number
+    month: number
     scheduledAppointments: ClientScheduleAppointmentModel[]   
 }
 
 export interface ClientScheduleAppointmentModel {
-    id: number;
-    day: number;
-    startAt: Date;
-    endAt: Date;
-    clientId: number;
-    clientName: string;
+    id: number
+    day: number
+    startAt: Date
+    endAt: Date
+    clientId: number
+    clientName: string
 }
 
-
 export interface SaveScheduleModel {
-    startAt?: Date;
-    endAt?: Date;
-    clientId?: number;
+    startAt?: Date
+    endAt?: Date
+    clientId?: number
 }
 
 export interface SelectClientModel {
-    id: number;
-    name: string;
+    id: number
+    name: string
 }

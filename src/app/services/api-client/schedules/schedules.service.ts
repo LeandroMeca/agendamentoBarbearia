@@ -5,6 +5,7 @@ import { SaveScheduleRequest, SaveScheduleResponse, ScheduleAppointmentMonthResp
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../../environments/environment';
 
+
 @Injectable({
   providedIn: 'root'
 })
@@ -14,7 +15,7 @@ export class SchedulesService implements IScheduleService{
 
   constructor(private http: HttpClient) {}
   
-  save(request: SaveScheduleRequest): Observable<SaveScheduleResponse> {
+  save(request: SaveScheduleRequest): Observable<SaveScheduleResponse> { 
     return this.http.post<SaveScheduleResponse>(`${this.basePath}schedules`, request);
   }
   delete(id: number): Observable<void> {

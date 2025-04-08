@@ -63,7 +63,7 @@ export class ScheduleCalendarComponent implements OnDestroy, AfterViewInit, OnCh
 
   clientSelectFormControl = new FormControl()
 
-  @Input() monthSchedule!: ScheduledAppintementMonthModel;
+  @Input() monthSchedule!: ScheduledAppintementMonthModel
   @Input() clients: SelectClientModel[] = []
 
   @Output() onDateChange = new EventEmitter<Date>()
